@@ -1,6 +1,7 @@
 pkgbase=rjw
 pkgname=(rjw-base rjw-pwd-man rjw-vpn rjw-desktop rjw-laptop rjw-workstation)
-pkgvew=50
+pkgver=50
+pkgrel=1
 pkgdesc="System config for rjw's systems"
 arch=(any)
 url="https://github.com/RJW42/meta-pkgs"
@@ -13,7 +14,7 @@ package_rjw-base() {
     provides=(rjw-devel)
     conflics=(rjw-devel)
     replaces=(rjw-devel)
-    install=rjw-bnase.install
+    install=rjw-base.install
 
     # Base Packages
     
@@ -137,13 +138,11 @@ package_rjw-desktop() {
 }
 
 package_rjw-workstation() {
-    depends=rjw-desktop
+    depends=(rjw-desktop)
 }
 
 package_rjw-laptop() {
-    depends=rjw-desktop
+    depends=(rjw-desktop)
 
-
-
-    depends+=powertop
+    depends+=(powertop)
 }
