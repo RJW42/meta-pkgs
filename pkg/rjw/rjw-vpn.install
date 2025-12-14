@@ -1,0 +1,4 @@
+post_install() {
+    # TODO: this may not work with user
+    groupadd -r nordvpn usermod -aG nordvpm $USER yay nordvpn-gui
+}

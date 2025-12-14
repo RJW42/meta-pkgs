@@ -1,0 +1,149 @@
+pkgbase=rjw
+pkgname=(rjw-base rjw-pwd-man rjw-vpn rjw-desktop rjw-laptop rjw-workstation)
+pkgvew=50
+pkgdesc="System config for rjw's systems"
+arch=(any)
+url="https://github.com/RJW42/meta-pkgs"
+license=(MIT)
+groups=(rjw)
+
+rootdir=$PWD
+
+package_rjw-base() {
+    provides=(rjw-devel)
+    conflics=(rjw-devel)
+    replaces=(rjw-devel)
+    install=rjw-bnase.install
+
+    # Base Packages
+    
+    # Base packages
+    depends=(base linux linux-firmware man-db man-pages texinfo intel-ucode)
+
+    # Base Devel
+    depends+=(
+        autoconf automake binutils bison fakeroot file findutils flex gawk gcc
+        gettext grep groff gzip libtool m4 make pacman patch pkgconf sed sudo
+        texinfo which
+    )
+
+    # Extra general packages
+    depends+=(
+        ripgrep exa fd wget fzf unzip zip dialog pacman-contrib bat ncdu
+        keybase efibootmgr pv zsh grml-zsh-config zsh-completions watchexec
+    )
+
+    # Debugging tools
+    depends+=(
+        lsof bind-tools mtr socat htop iotop openbsd-netcat strace tcpdump whois
+        iftop dstat
+    )
+
+    # Filesystems
+    depends+=(e2fsprogs exfat-utils dosfstools f2fs-tools)
+
+    # Networking
+    depends+=(nftables iw iwd avahi nss-mdns openssh)
+
+    # General tools
+    depends+=(git cmake jq musl ddrescue)
+
+    # Arch Packaging
+    depends+=(devtools aurutils aws-cli-v2-bin)
+
+    # Docker
+    depends+=(docker docker-compose dnsmasq rancher-k3d-bin kubectl k9s kind)
+
+    # Automation tools
+    # depends+=(terraform)
+
+    # Languages
+    depends+=(rustup clang go)
+
+    # Python tools
+    depends+=(python-black python-pycodestyle python-pylint flake8)
+
+    # Node tools
+    depends+=(yarn npm nodejs prettier)
+
+    # Text
+    depends+=(vale)
+
+    # cp -a "$rootdir/files-base/"* "$pkgdir"
+    # chmod -R 0750 "$pkgdir/etc/sudoers.d"
+}
+
+# Password Manager
+package_rjw-pwd-man() {
+    install=rjw-pwd-man.install
+
+    depends=(rjw-base)
+
+    # 1Password
+    depends+=(1password-cli)
+}
+
+# VPN
+package_rjw-vpn() {
+    install=rjw-vpn.install
+
+    depends=(rjw-base)
+
+    # NordVPN
+    depends+=(nordvpn)
+}
+
+# Desktop GUI
+package_rjw-desktop() {
+    install=rjw-desktop.install
+
+    depends=(rjw-base rjw-pwd-man rjw-vpn)
+
+    # Password Manager & VPN Gui
+    depends+=(1password nordvpn-gui)
+
+    # Hyperland 
+    depends+=(hyprland hyprpaper xdg-desktop-portal-hyprland waybar wofi hyprlock)
+
+    # Applications
+    depends+=(
+        alacritty firefox gopass discord nemo nemo-fileroller nemo-preview
+    )
+
+    # Utility
+    depends+=(
+        redshift python-gobject bluez bluez-utils blueberry pipewire
+        pipewire-alsa pipewire-pulse wireplumber helvum pavucontrol paprefs
+        scrot arandr
+    )
+
+    # Drivers and utilities
+    depends+=(
+        libinput-gestures xf86-input-libinput xf86-video-vesa
+    )
+
+    # Xorg packages and utilities
+    depends+=(xorg-xkill xorg-xev xorg-xhost xorg-xrandr xsel)
+
+    # Fonts
+    depends+=(
+        noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-monofur
+        ttf-dejavu xorg-fonts-misc ttf-font-awesome
+    )
+
+    optdepends=(krita okular chromium netdata mupdf-gl)
+
+    # cp -a "$rootdir/files-desktop/"* "$pkgdir"
+}
+
+package_rjw-workstation() {
+    depends=rjw-desktop
+}
+
+package_rjw-laptop() {
+    depends=rjw-desktop
+
+
+
+    depends+=powertop
+}
